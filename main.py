@@ -1,65 +1,34 @@
-import datetime
-from typing import List
+from modules import Database, ConnectionManager
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.responses import HTMLResponse
+from fastapi.responses import RedirectResponse
 import json
 import uvicorn
 
 app = FastAPI()
-app.mount("/caro", StaticFiles(directory="templates"))
-USER_PASS = "123"
-ADMIN_PASS = "321"
+app.mount("/caro", StaticFiles(directory="static"))
+USER_PASS = "19TCLC_DT6"
+ADMIN_PASS = "batnapquantaihonemlancuoi"
+
+manager = ConnectionManager.ConnectionManager()
+db = Database.Database("data.json")
 
 
-class Database:
-    def __init__(self):
-        with open("data.json", encoding="utf-8") as f:
-            self.data = json.loads(f.read())
-
-    def add(self, win: str, lose: str, time=str(datetime.datetime.now())):
-        self.data.append([win, lose, time])
-        with open("data.json", "w", encoding="utf-8") as f:
-            json.dump(self.data, f)
-
-    def remove(self, win: str, lose: str):
-        for i in range(len(self.data) - 1, -1, -1):
-            if self.data[i][0] == win and self.data[i][1] == lose:
-                del self.data[i]
-                break
-        with open("data.json", "w", encoding="utf-8") as f:
-            json.dump(self.data, f)
-
-
-class ConnectionManager:
-    def __init__(self):
-        self.active_connections: List[WebSocket] = []
-
-    async def connect(self, websocket: WebSocket):
-        await websocket.accept()
-        self.active_connections.append(websocket)
-
-    def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
-
-    async def broadcast(self, message: dict):
-        for connection in self.active_connections:
-            await connection.send_json(message)
-
-
-manager = ConnectionManager()
-db = Database()
+@app.get("/{every_thing}")
+async def not_found(every_thing:str):
+    return RedirectResponse("https://www.facebook.com/huytuong010101/")
 
 
 @app.websocket("/ws/{password}")
 async def websocket_endpoint(websocket: WebSocket, password: str):
     if password != USER_PASS:
+        print("Client wrong password:", password)
         return
     await manager.connect(websocket)
     await websocket.send_json(db.data)
     try:
         while True:
-            data = await websocket.receive_text()
+            await websocket.receive_text()
     except WebSocketDisconnect:
         manager.disconnect(websocket)
 
@@ -67,6 +36,7 @@ async def websocket_endpoint(websocket: WebSocket, password: str):
 @app.websocket("/admin/{password}")
 async def websocket_endpoint(websocket: WebSocket, password: str):
     if password != ADMIN_PASS:
+        print("Admin wrong password:", password)
         return
     await manager.connect(websocket)
     await websocket.send_json(db.data)
@@ -80,7 +50,6 @@ async def websocket_endpoint(websocket: WebSocket, password: str):
             elif data["type"] == "remove":
                 db.remove(data["win"], data["lose"])
                 await manager.broadcast(db.data)
-
     except WebSocketDisconnect:
         manager.disconnect(websocket)
 

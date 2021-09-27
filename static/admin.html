@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Caro leaderboard</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+        <script src="/caro/players.js"></script>
+    </head>
+    <body>
+        <section class="container">
+            <h2 class="text-success text-center"> Caro Leaderboard Admin</h2>
+            <form>
+              <fieldset class="text-center">
+                <div class="mb-3">
+                  <label for="win-player" class="form-label">Win player</label>
+                  <select id="win-player" class="form-select">
+
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="lose-player" class="form-label">Lose player</label>
+                  <select id="lose-player" class="form-select">
+
+                  </select>
+                </div>
+                <button id="add-btn" type="button" class="btn btn-primary">Thêm</button>
+                <button id="remove-btn" type="button" class="btn btn-primary">Xóa</button>
+              </fieldset>
+            </form>
+        </section>
+        <hr>
+        <section class="container text-align">
+            <ul class="list-group text-center" id="logs">
+            </ul>
+        </section>
+        <script src="/caro/jquery.js"></script>
+    </body>
+</html>

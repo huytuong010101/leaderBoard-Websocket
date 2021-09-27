@@ -33,8 +33,8 @@ a {
 }
 /* container */
 .container {
-	width: 50vw;
-	height: auto;
+	width: 70vw;
+	height: 90vh;
 	border-radius: 10px;
 	background-color: white;
 	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -44,6 +44,30 @@ a {
 	transform: translate(-50%, -50%);
 	z-index: 1;
 	overflow: hidden;
+}
+.body-point{
+	height: 70vh;
+	overflow: scroll;
+}
+
+.body-point::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.body-point::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+.body-point::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #D62929;
 }
 
 /* leaderboard */
