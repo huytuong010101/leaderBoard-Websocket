@@ -4,7 +4,7 @@ ws.onmessage = (event) => {
     const data = JSON.parse(event.data)
     let point = {}
     players.forEach(item => {
-        point[item] = 0
+        point[item] = 5
     })
     data.reverse()
     let html_logs = ""
