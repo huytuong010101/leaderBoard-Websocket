@@ -8,7 +8,9 @@ class Database:
         with open(self.path, encoding="utf-8") as f:
             self.data = json.loads(f.read())
 
-    def add(self, win: str, lose: str, time=str(datetime.datetime.now())):
+    def add(self, win: str, lose: str, time=None):
+        if time is None:
+            time = str(datetime.datetime.now())
         self.data.append([win, lose, time])
         with open(self.path, "w", encoding="utf-8") as f:
             json.dump(self.data, f)
